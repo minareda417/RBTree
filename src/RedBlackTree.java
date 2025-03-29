@@ -152,4 +152,22 @@ public class RedBlackTree <T extends Comparable<T>>{
         this.root.color = Color.Black;
     }
 
+    public Node<T> search(T key){
+        Node<T> x = this.root;
+        while (x != this.TNull){
+            int comparison = x.key.compareTo(key);
+            if (comparison == 0){
+                System.out.println("\n" +key+ " found.");
+                return x;
+            }
+
+            else if (comparison > 0)
+                x = x.left;
+            else
+                x = x.right;
+        }
+        System.out.println("\n" +key+ " not found.");
+        return null;
+    }
+
 }

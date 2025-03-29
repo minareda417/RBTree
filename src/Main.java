@@ -16,5 +16,8 @@ public class Main {
 
         System.out.println("\nPostorder traversal:");
         tree.postorder();
+
+        tree.search(60);
+        tree.search(32);
     }
 }
