@@ -1,5 +1,5 @@
 public class RedBlackTree <T extends Comparable<T>>{
-    private Node<T> root;
+    protected Node<T> root;
     private final Node<T> TNull;
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_RED = "\u001B[31m";
@@ -59,7 +59,7 @@ public class RedBlackTree <T extends Comparable<T>>{
         if (y.left != this.TNull) // if y's left subtree is not empty
             y.left.parent = x; // ... then x becomes the parent of the subtree's root
         y.parent = x.parent; // x's parent becomes y's parent
-        if (x.parent == null) // if x was the root
+        if (x.parent == this.TNull) // if x was the root
             this.root = y; // ... then y becomes the root
         else if (x == x.parent.left) // otherwise, if x was a left child
             x.parent.left = y; // ... then y becomes a left child
@@ -75,7 +75,7 @@ public class RedBlackTree <T extends Comparable<T>>{
         if (y.right != this.TNull) // if y's right subtree is not empty
             y.right.parent = x; // ... then x becomes the parent of the subtree's root
         y.parent = x.parent; // x's parent becomes y's parent
-        if (x.parent == null) // if x was the root
+        if (x.parent == this.TNull) // if x was the root
             this.root = y; // ... then y becomes the root
         else if (x == x.parent.right) // otherwise, if x was a right child
             x.parent.right = y; // ... then y becomes a right child
@@ -85,6 +85,7 @@ public class RedBlackTree <T extends Comparable<T>>{
         x.parent = y;
     }
 
+    // O(log(n))
     public void insert(T key) {
         Node<T> z = new Node<>(key);
         Node<T> x = this.root; // node being compared with z
@@ -152,22 +153,41 @@ public class RedBlackTree <T extends Comparable<T>>{
         this.root.color = Color.Black;
     }
 
-    public Node<T> search(T key){
+    public int getHeight(Node<T> root){
+        if (root == TNull)
+            return 0;
+        return 1+ Math.max(getHeight(root.left), getHeight(root.right));
+    }
+
+    public int getBlackHeight(Node<T> root){
+        if (root == TNull)
+            return 0;
+        if (root.color == Color.Black)
+            return 1+ Math.max(getBlackHeight(root.left), getBlackHeight(root.right));
+        return Math.max(getBlackHeight(root.left), getBlackHeight(root.right));
+    }
+
+    public int getNumberOfNodes(Node<T> root){
+        if (root == TNull)
+            return 0;
+        return 1 + getNumberOfNodes(root.left) + getNumberOfNodes(root.right);
+    }
+
+    // O(log(n))
+    public void search(T key){
         Node<T> x = this.root;
         while (x != this.TNull){
             int comparison = x.key.compareTo(key);
             if (comparison == 0){
                 System.out.println("\n" +key+ " found.");
-                return x;
+                return;
             }
-
             else if (comparison > 0)
                 x = x.left;
             else
                 x = x.right;
         }
         System.out.println("\n" +key+ " not found.");
-        return null;
     }
 
 }

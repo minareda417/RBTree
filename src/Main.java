@@ -7,6 +7,8 @@ public class Main {
         tree.insert(60);
         tree.insert(75);
         tree.insert(57);
+        tree.insert(56);
+        tree.insert(62);
 
         System.out.println("Preorder traversal:");
         tree.preorder();
@@ -19,5 +21,9 @@ public class Main {
 
         tree.search(60);
         tree.search(32);
+
+        System.out.println(tree.getHeight(tree.root));
+        System.out.println(tree.getBlackHeight(tree.root));
+        System.out.println(tree.getNumberOfNodes(tree.root));
     }
 }
